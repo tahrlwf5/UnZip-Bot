@@ -46,7 +46,7 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [ 
-                        InlineKeyboardButton('⛔ Cancel', callback_data=f"cancel_unzip")
+                        InlineKeyboardButton('⛔ الالغاء', callback_data=f"cancel_unzip")
                        ]
                    ]
                  )
