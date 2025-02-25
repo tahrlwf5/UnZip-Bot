@@ -26,16 +26,16 @@ async def handle_file(client, message):
         file_path = None
         unzip_dir = None
         try:
-            download_message = await message.reply("⏳ Downloading the ZIP file...")
+            download_message = await message.reply("⏳تحميل الملف المضغوط...")
             start = time.time()
 
             file_path = await message.download(
                 file_name=document.file_name,
                 progress=progress_for_pyrogram,
-                progress_args=("⬇️ Downloading...", download_message, start)
+                progress_args=("⬇️ التنزيل...", download_message, start)
             )
 
-            await download_message.edit("⏳ Extracting the ZIP file...")
+            await download_message.edit("⏳ استخراج الملف المضغوط...")
 
             unzip_dir = os.path.join(tempfile.gettempdir(), f'unzipped_{user_id}')
             os.makedirs(unzip_dir, exist_ok=True)
@@ -46,11 +46,11 @@ async def handle_file(client, message):
             await task
 
         except zipfile.BadZipFile:
-            await download_message.edit("❌ The file you sent is not a valid ZIP file.")
+            await download_message.edit("❌ الملف الذي أرسلته ليس ملف ZIP صالح.")
         except asyncio.CancelledError:
-            await download_message.edit("❌ Unzipping has been cancelled.")
+            await download_message.edit("❌ تم إلغاء عملية فك الضغط.")
         except Exception as e:
-            await download_message.edit(f"❌ An error occurred: {e}")
+            await download_message.edit(f"❌ An error occurred(حدث خطا): {e}")
         finally:
             if file_path and os.path.exists(file_path):
                 os.remove(file_path)
@@ -59,14 +59,14 @@ async def handle_file(client, message):
             active_tasks.pop(user_id, None)
 
     else:
-        await message.reply("⚠️ Please send a valid ZIP file.")
+        await message.reply("⚠️ يرجى إرسال ملف ZIP صالح.")
 
 
 async def extract_and_send_files(client, message, file_path, unzip_dir, download_message, start):
     with zipfile.ZipFile(file_path, 'r') as zip_ref:
         zip_ref.extractall(unzip_dir)
 
-    await download_message.edit("⬆️ Sending the extracted files...")
+    await download_message.edit("⬆️ إرسال الملفات المستخرجة...")
 
     for root, _, files in os.walk(unzip_dir):
         for file_name in files:
@@ -75,9 +75,9 @@ async def extract_and_send_files(client, message, file_path, unzip_dir, download
                 chat_id=message.chat.id,
                 document=extracted_file_path,
                 progress=progress_for_pyrogram,
-                progress_args=("⬆️ Uploading...", download_message, start)
+                progress_args=("⬆️ التحميل...", download_message, start)
             )
 
-    await download_message.edit("✅ All files have been extracted and sent successfully.")
+    await download_message.edit("✅ تم استخراج كافة الملفات وإرسالها بنجاح.")
 
 
