@@ -15,17 +15,17 @@ async def start(client, message):
     reply_markup = InlineKeyboardMarkup(
     [
         [
-            InlineKeyboardButton("📍 Update Channel", url="https://t.me/NT_BOT_CHANNEL"),
+            InlineKeyboardButton("📍 قناة تحديثات", url="https://t.me/i2pdfbotchannel"),
         ],
         [
-            InlineKeyboardButton("👥 Support Group", url="https://t.me/NT_BOTS_SUPPORT"),
-            InlineKeyboardButton("👩‍💻 Developer", url="https://t.me/LISA_FAN_LK"),
+            InlineKeyboardButton("👥 قناة الدعم", url="https://t.me/i2pdfbotchannel"),
+            InlineKeyboardButton("👩‍💻 المطور", url="https://t.me/ta_ja199"),
         ] 
    ]
   )
     start_message = (
-        "Hello!\n\n"
-        "Send me a ZIP file, and I'll unzip it for you."
+        "مرحبا!\n\n"
+        "أرسل لي ملف مضغوط وسأقوم بفك ضغطه لك."
     )
     await message.reply(start_message, reply_markup=reply_markup)
 
@@ -39,11 +39,11 @@ async def cancel(client, callback_query):
 @Client.on_message(filters.command("help"))
 async def help_command(client, message):
     help_message = (
-        "Here are the commands you can use:\n\n"
-        "/start - Start the bot and get the welcome message\n"
-        "/help - Get help on how to use the bot\n\n"
-        "To unzip a file, simply send me a ZIP file and I will extract its contents and send them back to you.\n\n"
-        "©️ Channel : @NT_BOT_CHANNEL"
+        "فيما يلي الأوامر التي يمكنك استخدامها:\n\n"
+        "/start - ابدأ تشغيل الروبوت واحصل على رسالة الترحيب\n"
+        "/help - احصل على مساعدة حول كيفية استخدام الروبوت\n\n"
+        "لفك ضغط ملف، ما عليك سوى إرسال ملف ZIP إليّ وسأستخرج محتوياته وأرسله إليك مرة أخرى.\n\n"
+        "©️ القناة : @i2pdfbotchannel"
     )
     await message.reply(help_message)
 
@@ -56,7 +56,7 @@ async def cancel_callback(client, callback_query):
     if user_id in active_tasks:
         task = active_tasks[user_id]
         task.cancel()
-        await callback_query.answer("⛔ Unzipping has been cancelled.", show_alert=True)
+        await callback_query.answer("⛔ تم إلغاء عملية فك الضغط.", show_alert=True)
     else:
-        await callback_query.answer("⚠️ No ongoing unzip operation.", show_alert=True)
+        await callback_query.answer("⚠️ لا توجد عملية فك ضغط مستمرة.", show_alert=True)
 
